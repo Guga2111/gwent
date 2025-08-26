@@ -5,13 +5,13 @@ import br.com.gwent.engine.pojo.structure.Player;
 import br.com.gwent.engine.pojo.structure.card.GameCard;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 public class Game {
     private GameState gameState;
 
-    public Game (Deque<GameCard> playerOneDeck, Long playerOneId, Deque<GameCard> playerTwoDeck, Long playerTwoId) {
-
+    public Game (Deque<GameCard> playerOneDeck, Deque<GameCard> playerTwoDeck, Long playerOneId, Long playerTwoId) {
+        this.gameState = GameInitializeUtils.initializeNewGame(playerOneDeck, playerTwoDeck, playerOneId, playerTwoId);
     }
 
     public GameState playCard () {
@@ -26,53 +26,4 @@ public class Game {
         return gameState;
     }
 
-    private GameState initializeNewGame (
-            Deque<GameCard> playerOneDeck, Deque<GameCard> playerTwoDeck, Long playerOneId, Long playerTwoId
-    ) {
-        playerOneDeck = shuffleDeck(playerOneDeck);
-        playerTwoDeck = shuffleDeck(playerTwoDeck);
-
-        List<GameCard> player1Hand = createHand(playerOneDeck);
-        List<GameCard> player2Hand = createHand(playerTwoDeck);
-
-        Player player1 = new Player(playerOneId, playerOneDeck, player1Hand);
-        Player player2 = new Player(playerTwoId, playerTwoDeck, player2Hand);
-
-        Long startingPlayerId = decideStartingPlayer(playerOneId, playerTwoId);
-
-        return GameState.builder()
-                .gameStatus(GameStatus.ROUND_IN_PROGRESS)
-                .gameWinnerId(null)
-                .currentRound(1)
-                .currentPlayerId(startingPlayerId)
-                .player1(player1)
-                .player2(player2)
-                .build();
-    }
-
-    private Deque<GameCard> shuffleDeck (Deque<GameCard> notShuffledDeck) {
-        List<GameCard> listOfDeck = new ArrayList<>(notShuffledDeck);
-
-        Collections.shuffle(listOfDeck);
-
-        return new ArrayDeque<>(listOfDeck);
-    }
-
-    private List<GameCard> createHand (Deque<GameCard> shuffledDeck) {
-
-        List<GameCard> newHand = new ArrayList<>();
-
-        while (newHand.size() < 10) {
-            newHand.add(shuffledDeck.pop());
-        }
-
-        return newHand;
-    }
-
-    private Long decideStartingPlayer (Long playerOneId, Long playerTwoId) {
-
-        boolean playerOneStarts = ThreadLocalRandom.current().nextBoolean();
-
-        return playerOneStarts ? playerOneId : playerTwoId;
-    }
 }
