@@ -11,17 +11,13 @@ public class Player {
     private boolean hasPassed = false;
     private List<GameCard> hand;
     private Deque<GameCard> deck;
+    private List<GameCard> discard;
 
-    public Player (Long userId, Deque<GameCard> deck) {
+    public Player (Long userId, Deque<GameCard> deck, List<GameCard> hand) {
         this.userId = userId;
-        this.deck = shuffleDeck(deck);
+        this.deck = deck;
+        this.hand = hand;
+        this.discard = new ArrayList<>();
     }
 
-    private Deque<GameCard> shuffleDeck (Deque<GameCard> notShuffledDeck) {
-        List<GameCard> listOfDeck = new ArrayList<>(notShuffledDeck);
-
-        Collections.shuffle(listOfDeck);
-
-        return new ArrayDeque<>(listOfDeck);
-    }
 }
