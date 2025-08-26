@@ -2,14 +2,17 @@ package br.com.gwent.engine;
 
 import br.com.gwent.engine.pojo.enums.GameStatus;
 import br.com.gwent.engine.pojo.structure.Player;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Data @Builder
+@Data @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class GameState {
-    private final UUID gameId;
+    private final UUID gameId = UUID.randomUUID();
 
     private int currentRound;
     private Long currentPlayerId;
