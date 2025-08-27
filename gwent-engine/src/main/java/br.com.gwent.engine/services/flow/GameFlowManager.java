@@ -3,15 +3,7 @@ package br.com.gwent.engine.services.flow;
 import br.com.gwent.engine.core.GameState;
 import br.com.gwent.engine.pojo.enums.GameStatus;
 import br.com.gwent.engine.pojo.structure.Player;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class GameFlowManager {
 
     // remains to add "verify if the opponent has passed his turn and if it does the currentPlayerId must still the same!"

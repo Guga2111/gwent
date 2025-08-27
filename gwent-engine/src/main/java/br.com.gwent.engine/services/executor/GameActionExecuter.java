@@ -1,24 +1,17 @@
-package br.com.gwent.engine;
+package br.com.gwent.engine.services.executor;
 
+import br.com.gwent.engine.core.GameState;
 import br.com.gwent.engine.pojo.abilities.TargetInfo;
 import br.com.gwent.engine.pojo.enums.RowType;
 import br.com.gwent.engine.pojo.structure.Player;
 import br.com.gwent.engine.pojo.structure.board.BoardRow;
 import br.com.gwent.engine.pojo.structure.card.GameCard;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class GameActionExecuter {
 
-    public GameState playCard (GameState gameState, Long playerId, UUID gameCardId, RowType targetRow, TargetInfo targetInfo) {
+    public void playCard (GameState gameState, Long playerId, UUID gameCardId, RowType targetRow, TargetInfo targetInfo) {
 
         Player actingPlayer = gameState.getPlayerById(playerId); // find player in gamestate
 
@@ -30,7 +23,6 @@ public class GameActionExecuter {
 
         //remains the use of targetInfo (interface for abilities)
 
-        return gameState;
     }
 
     // add ways to destroy card (with a card to destroy or an ability), ways to draw cards (purchase those card from deck), etc...
