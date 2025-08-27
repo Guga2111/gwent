@@ -2,7 +2,6 @@ package br.com.gwent.engine.pojo.structure.board;
 
 import br.com.gwent.engine.pojo.enums.RowType;
 import br.com.gwent.engine.pojo.structure.card.GameCard;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;

@@ -5,8 +5,6 @@ import br.com.gwent.engine.pojo.enums.Faction;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Set;
-
 @Data @Builder
 public class Card {
     private Long id;

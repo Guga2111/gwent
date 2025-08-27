@@ -1,5 +1,6 @@
-package br.com.gwent.engine;
+package br.com.gwent.engine.core;
 
+import br.com.gwent.engine.core.GameState;
 import br.com.gwent.engine.pojo.enums.GameStatus;
 import br.com.gwent.engine.pojo.structure.Player;
 import br.com.gwent.engine.pojo.structure.card.GameCard;
