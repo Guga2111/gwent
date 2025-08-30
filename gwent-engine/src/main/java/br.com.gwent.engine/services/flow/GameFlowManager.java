@@ -17,8 +17,7 @@ public class GameFlowManager {
         } else {
             gameState.setNumberOfMoves(gameState.getNumberOfMoves() + 1);
         }
-
-        throw new RuntimeException(); // for player not found on the specific Game "PlayerNotFoundInGameException"
+        // for player not found on the specific Game "PlayerNotFoundInGameException"
     }
 
     public void executePass (GameState gameState, Long passingPlayerId) {
