@@ -7,11 +7,15 @@ import br.com.gwent.engine.pojo.structure.card.GameCard;
 import br.com.gwent.engine.services.executor.GameActionExecuter;
 import br.com.gwent.engine.services.flow.GameFlowManager;
 import br.com.gwent.engine.services.validator.GameValidator;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
 
 import java.util.*;
 
-
 public class Game {
+
+    @Getter
     private GameState gameState;
 
     private final GameActionExecuter actionExecuter;
