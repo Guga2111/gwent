@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data @Builder
 public class Card {
-    private Long id;
+    private String id;
     private String name;
     private int basePower;
     private CardType type;
