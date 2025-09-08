@@ -13,13 +13,13 @@ public class GameActionExecuter {
 
     public void playCard (GameState gameState, Long playerId, UUID gameCardId, RowType targetRow, TargetInfo targetInfo) {
 
-        Player actingPlayer = gameState.getPlayerById(playerId); // find player in gamestate
+        Player actingPlayer = gameState.getPlayerById(playerId);
 
-        BoardRow destinationRow = actingPlayer.getBoard().getRow(targetRow); // find the selected row
+        BoardRow destinationRow = actingPlayer.getBoard().getRow(targetRow);
 
-        GameCard cardToPlay = actingPlayer.removeCardFromHand(gameCardId); // find the correct card on the hand based on the UUID and remove it
+        GameCard cardToPlay = actingPlayer.removeCardFromHand(gameCardId);
 
-        destinationRow.addCardToRow(cardToPlay); // add the selected card on the selected row
+        destinationRow.addCardToRow(cardToPlay);
 
         //remains the use of targetInfo (interface for abilities)
 
