@@ -1,5 +1,6 @@
 package br.com.gwent.engine.pojo.structure;
 
+import br.com.gwent.engine.exception.CardNotPresentInHandException;
 import br.com.gwent.engine.pojo.structure.board.PlayerBoard;
 import br.com.gwent.engine.pojo.structure.card.GameCard;
 import lombok.Data;
@@ -29,11 +30,14 @@ public class Player {
     }
 
     public GameCard removeCardFromHand (UUID gameCardId) {
-        Optional<GameCard> requestCard = this.hand.stream()
+        GameCard requestCard = this.hand.stream()
                 .filter(card -> card.getInstanceId().equals(gameCardId))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() ->
+                        new CardNotPresentInHandException(gameCardId)
+                );
 
-        requestCard.ifPresent(card -> this.hand.remove(card));
-        return requestCard.get();
+        this.hand.remove(requestCard);
+        return requestCard;
     }
 }
