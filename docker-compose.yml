@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  gwent-engine-simulation:
+    # build image in the current directory
+    build: .
+    image: gwent-engine-simulation:latest
+
+    # DO NOT REMOVE THESE LINES!
+    # make standart input open, for the scanner can be continuous utilize
+    stdin_open: true
+    # allocates the pseudo-tty
+    tty: true
