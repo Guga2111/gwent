@@ -22,11 +22,19 @@ public class Game {
     private final GameFlowManager flowManager;
     private final GameValidator validator;
 
-    public Game (Deque<GameCard> playerOneDeck, Deque<GameCard> playerTwoDeck, Long playerOneId, Long playerTwoId) {
-
-        this.actionExecuter = new GameActionExecuter();
-        this.flowManager = new GameFlowManager();
-        this.validator = new GameValidator();
+    // O construtor agora recebe as dependências
+    public Game (
+            Deque<GameCard> playerOneDeck,
+            Deque<GameCard> playerTwoDeck,
+            Long playerOneId,
+            Long playerTwoId,
+            GameActionExecuter actionExecuter, // Recebido de fora
+            GameFlowManager flowManager,         // Recebido de fora
+            GameValidator validator              // Recebido de fora
+    ) {
+        this.actionExecuter = actionExecuter;
+        this.flowManager = flowManager;
+        this.validator = validator;
 
         this.gameState = GameInitializeUtils.initializeNewGame(playerOneDeck, playerTwoDeck, playerOneId, playerTwoId);
     }
