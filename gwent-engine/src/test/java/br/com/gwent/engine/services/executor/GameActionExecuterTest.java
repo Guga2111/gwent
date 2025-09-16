@@ -8,9 +8,9 @@ import br.com.gwent.engine.pojo.structure.Player;
 import br.com.gwent.engine.pojo.structure.board.BoardRow;
 import br.com.gwent.engine.pojo.structure.card.Card;
 import br.com.gwent.engine.pojo.structure.card.GameCard;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameActionExecuterTest {
 
@@ -38,7 +38,7 @@ public class GameActionExecuterTest {
                 .collect(Collectors.toList());
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
         List<GameCard> player1Hand = createTestHand(5);
@@ -107,7 +107,7 @@ public class GameActionExecuterTest {
         boolean cardExists = actingPlayer.getHand().stream()
                 .anyMatch(card -> card.getInstanceId().equals(nonExistingCard));
 
-        assertFalse("Pre Condition: The card ID of test must not exists in the players hand.", cardExists);
+        assertFalse(cardExists,"Pre Condition: The card ID of test must not exists in the players hand.");
 
         //act & assert
         CardNotPresentInHandException exception = assertThrows(CardNotPresentInHandException.class, () -> {
