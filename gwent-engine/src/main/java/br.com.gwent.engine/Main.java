@@ -6,6 +6,9 @@ import br.com.gwent.engine.pojo.enums.GameStatus;
 import br.com.gwent.engine.pojo.enums.RowType;
 import br.com.gwent.engine.pojo.structure.card.Card;
 import br.com.gwent.engine.pojo.structure.card.GameCard;
+import br.com.gwent.engine.services.executor.GameActionExecuter;
+import br.com.gwent.engine.services.flow.GameFlowManager;
+import br.com.gwent.engine.services.validator.GameValidator;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -25,32 +28,9 @@ public class Main {
         Deque<GameCard> p1Deck = createTestDeck(Faction.NORTHERN_REALMS);
         Deque<GameCard> p2Deck = createTestDeck(Faction.NILFGAARD);
 
-        Game game = new Game(p1Deck, p2Deck, PLAYER_ONE_ID, PLAYER_TWO_ID);
+        Game game = new Game(p1Deck, p2Deck, PLAYER_ONE_ID, PLAYER_TWO_ID, new GameActionExecuter(), new GameFlowManager(), new GameValidator());
 
         runGameLoop(game);
-
-        //simulate here the actions
-
-        //add here the interface for the user test
-
-        // example: player1 plays a card on artillery row
-//        GameState currentState = game.getGameState();
-//        long p1Id = currentState.getCurrentPlayerId();
-//        GameCard cardToPlay = currentState.getPlayerById(p1Id).getHand().get(0);
-//
-//        System.out.println("\n--- Player " + p1Id + " plays the card: " + cardToPlay.getCardTemplate().getName() + " ---");
-//        game.playCard( cardToPlay.getInstanceId(), RowType.ARTILLERY, p1Id);
-//        printGameState(game.getGameState());
-//
-//        // example: player2 pass your turn
-//        long p2Id = game.getGameState().getCurrentPlayerId();
-//        System.out.println("\n--- Player " + p2Id + " pass the turn ---");
-//        game.passTurn(p2Id);
-//        printGameState(game.getGameState());
-//
-//        System.out.println("\n=========================================");
-//        System.out.println("  SIMULATION FINISHED!  ");
-//        System.out.println("=========================================");
     }
 
     private static void runGameLoop (Game game) {
@@ -180,18 +160,18 @@ public class Main {
                 bestCard = bestCardOptional.get();
             }
 
-            // IA Simples: Escolhe uma fileira aleatória.
+            // Simple AI: Choose random column.
             if (bestCard != null) {
                 RowType randomRow = RowType.values()[ThreadLocalRandom.current().nextInt(RowType.values().length)];
 
-                System.out.println("IA joga a carta: " + bestCard.getCardTemplate().getName() + " na fileira " + randomRow.name());
+                System.out.println("AI plays: " + bestCard.getCardTemplate().getName() + " on the column " + randomRow.name());
                 game.playCard(bestCard.getInstanceId(), randomRow, PLAYER_TWO_ID);
             }
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } catch (RuntimeException e) {
-            System.out.println("!!! ERRO NA IA: " + e.getMessage());
+            System.out.println("!!! AI ERROR: " + e.getMessage());
         }
     }
 
