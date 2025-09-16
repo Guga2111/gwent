@@ -6,6 +6,12 @@ import br.com.gwent.engine.pojo.structure.Player;
 
 public class GameFlowManager {
 
+    private final RoundResultService roundResultService;
+
+    public GameFlowManager () {
+        roundResultService = new RoundResultService();
+    }
+
     // remains to add "verify if the opponent has passed his turn and if it does the currentPlayerId must still the same!"
     public void advanceTurn (GameState gameState) {
 
@@ -37,10 +43,50 @@ public class GameFlowManager {
     }
 
     public void endRound (GameState gameState) {
+
+        RoundResult result = roundResultService.determineRoundWinner(
+                gameState.getPlayer1(),
+                gameState.getPlayer2()
+        );
+
+        if (result.winnerId() != null) {
+            Player winner = gameState.getPlayerById(result.winnerId());
+            winner.setRoundsWon(winner.getRoundsWon() + 1);
+        }
+
         gameState.setGameStatus(GameStatus.ROUND_OVER);
+
+        checkForGameEnd(gameState);
+
+    }
+
+    private void checkForGameEnd (GameState gameState) {
+
+        Player p1 = gameState.getPlayer1();
+        Player p2 = gameState.getPlayer2();
+
+        if (p1.getRoundsWon() == 2) {
+            gameState.setGameWinnerId(p1.getUserId());
+            gameState.setGameStatus(GameStatus.GAME_FINISHED);
+        } else if (p2.getRoundsWon() == 2) {
+            gameState.setGameWinnerId(p2.getUserId());
+            gameState.setGameStatus(GameStatus.GAME_FINISHED);
+        } else {
+            setForNextRound(gameState);
+        }
+    }
+
+    private void setForNextRound (GameState gameState) {
+
         gameState.setCurrentPlayerId(gameState.getOpponentOf(gameState.getCurrentPlayerId()).getUserId());
         gameState.setCurrentRound(gameState.getCurrentRound() + 1);
-        // remains to determine the winner of the round ( another service will )
-        // this will be the future endRound function
+
+        gameState.getPlayer1().getBoard().clearBoard(gameState.getPlayer1());
+        gameState.getPlayer2().getBoard().clearBoard(gameState.getPlayer2());
+
+        gameState.getPlayer1().setHasPassed(false);
+        gameState.getPlayer2().setHasPassed(false);
+
+        gameState.setGameStatus(GameStatus.ROUND_IN_PROGRESS);
     }
 }
